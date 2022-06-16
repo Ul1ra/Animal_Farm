@@ -1,5 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react';
+import Animal from './Component/Animal';
 
 // Custom hook 
 
@@ -20,7 +21,6 @@ const useAnimalSearch = () => {
     setAnimals(data);
 
     localStorage.setItem('lastQuery', q); 
-    console.log(data);
   };
 
   return {search, animals}
@@ -47,14 +47,6 @@ const App = () => {
       </ul>
 
     </div>
-  );
-}
-
-const Animal = ({type, name, age}) => {
-  return (
-    <li>
-      <strong>{type}</strong> {name} ({age} years old)
-    </li>
   );
 }
 
