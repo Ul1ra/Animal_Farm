@@ -1,11 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
 
-function App() {
+const App = () => {
+  const [animals, setAnimals] = useState([]);
+
+  useEffect(() => {
+    const lastQuery = localStorage.getItem('lastQuery'); 
+    search(lastQuery); // Keeps last search query if browser is refreshed
+    console.log(lastQuery);
+  }, []);
+
+  const search = async (q) => {
+    const response = await fetch(
+      'http://localhost:8080?' + new URLSearchParams({q})
+    );
+    const data = await response.json();
+    setAnimals(data);
+
+    localStorage.setItem('lastQuery', q); 
+    console.log(data);
+  };
+
   return (
     <div className="App">
-      <h1>Hello World</h1>
+      <h1>Animal Farm</h1>
+      <input 
+        type="text" 
+        placeholder="search" 
+        onChange={(e) => search(e.target.value)}
+      />
+      <ul>
+        {animals.map((animal) =>(
+          <Animal key={animal.id} {...animal} />
+        ))}
+
+        {animals.length === 0 && 'No animals found!'}
+      </ul>
+
     </div>
+  );
+}
+
+const Animal = ({type, name, age}) => {
+  return (
+    <li>
+      <strong>{type}</strong> {name} ({age} years old)
+    </li>
   );
 }
 
