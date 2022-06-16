@@ -1,7 +1,9 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 
-const App = () => {
+// Custom hook 
+
+const useAnimalSearch = () => {
   const [animals, setAnimals] = useState([]);
 
   useEffect(() => {
@@ -20,6 +22,13 @@ const App = () => {
     localStorage.setItem('lastQuery', q); 
     console.log(data);
   };
+
+  return {search, animals}
+}
+
+const App = () => {
+  
+  const { search, animals } = useAnimalSearch()
 
   return (
     <div className="App">
